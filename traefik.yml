@@ -1,0 +1,28 @@
+log:
+  level: DEBUG
+
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: seppe@lenders.dev
+      storage: /etc/traefik/acme/acme.json
+      httpChallenge:
+        entryPoint: web
+
+
+providers:
+  docker:
+    exposedByDefault: false
